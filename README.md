@@ -48,6 +48,7 @@ CREATE TABLE `Restaurants` (
   UNIQUE KEY `Restaurants_UNIQUE` (`CAMIS`)
 ) ENGINE=InnoDB AUTO_INCREMENT=25956 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+
 ## Schema for RestaurantCheckinSummary
 -- restaurants_analysis.RestaurantCheckinSummary definition
 
@@ -55,3 +56,10 @@ CREATE TABLE `RestaurantCheckinSummary` (
   `restaurant_id` int DEFAULT NULL,
   `checkin_count` bigint NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+## Example using Geospatial from MySQL to find closest point
+SELECT restaurant_id, name, ST_Distance(location, ST_GeomFromText('POINT(40.7219808 -73.73127382)')) AS distance
+FROM Restaurants
+WHERE ST_Distance(location, ST_GeomFromText('POINT(40.7219808 -73.73127382)')) < 5  -- Distance in meters
+ORDER BY distance LIMIT 1;
